@@ -1,0 +1,4 @@
+
+export const CREATE_TEAM = 'CREATE_TEAM'
+
+export const FETCH_QUESTIONS = 'FETCH_QUESTIONS'
