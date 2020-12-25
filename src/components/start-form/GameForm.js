@@ -1,7 +1,6 @@
 
 import React from 'react'
 import { Field, FieldArray, reduxForm, reset } from 'redux-form'
-
 import FormInput from './FormInput'
 import { createTeam } from '../../actions'
 import { connect } from 'react-redux'
@@ -13,9 +12,8 @@ And the input doesnt show. Second click and so is fine
 
 const GameForm = (props) => {
 
-    
     const onSubmit = (formValues, dispatch) => {
-        
+
         props.createTeam(formValues, props.form)
         dispatch(reset(
             props.form
@@ -74,14 +72,17 @@ const GameForm = (props) => {
 
 }
 
-const validate = (formValues) => {
-
-
+const validate = (formValues,props) => {
+    
     const errors = []
-
+    
     if (!formValues.team) {
         errors.team = "Enter a name"
     }
+    if (formValues.team in props.teams) {
+        errors.team = "Team name already in use"
+    }
+   
 
     return errors
 }
@@ -92,4 +93,8 @@ const formWrapper = reduxForm({
 
 })(GameForm)
 
-export default connect(null, { createTeam })(formWrapper)
+const mapStateToProps = (state) => {
+    return { teams: state.teams }
+}
+
+export default connect(mapStateToProps, { createTeam })(formWrapper)

@@ -3,8 +3,8 @@ import React from 'react'
 const FormInput =({meta, input,label}) =>{
 
     // decides the className
-    const className = `field ${meta.error && meta.touched ? 'error': ''} ${label === 'Member Name' ? 'column five wide' : ''}`
-
+    const className = `field ${meta.error && meta.touched ? 'error': ''}`
+    
     return(
        
         <div className={className}>
