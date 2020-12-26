@@ -1,11 +1,10 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import {AddPoint} from '../../actions'
+import {addPoint,removePoint} from '../../actions'
 
 
-const TeamShow = (props) => {
-   
+const TeamShow = (props) => {   
 
         return (
 
@@ -15,10 +14,11 @@ const TeamShow = (props) => {
                 <div className="extra content">
                     <div className="ui large two buttons">
                         <div className="ui green button"
-                            onClick={() => props.AddPoint(props.teams[props.teamName])}>
+                            onClick={() => props.addPoint(props.teams[props.teamName])}>
                             +
                             </div>
-                        <div className="ui red button">-</div>
+                        <div className="ui red button"
+                            onClick={() =>props.removePoint(props.teams[props.teamName])}>-</div>
                     </div>
                 </div>
             </div>
@@ -33,4 +33,4 @@ const mapStateToProps = (state, ownProps) => {
         teamName: ownProps.teamName
     }
 }
-export default connect(mapStateToProps,{AddPoint})(TeamShow)
+export default connect(mapStateToProps,{addPoint,removePoint})(TeamShow)
