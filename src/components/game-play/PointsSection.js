@@ -6,7 +6,7 @@ import TeamCard from './TeamCard'
 const PointsShow = (props) => {
 
     const renderTeams = () => {
-        
+
 
         return (
             props.teams.map((team, index) => {
@@ -21,11 +21,9 @@ const PointsShow = (props) => {
     }
 
     return (
-
-        <div>
-            <h2>Points</h2>
-            <div className="ui grid">
-                {renderTeams()}
+        <div className ="column ten wide">
+        <div className="ui two column grid">
+            {renderTeams()}
             </div>
         </div>
 

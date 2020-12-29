@@ -1,5 +1,3 @@
-
-
 import axios from 'axios'
 
 const jsonServer = axios.create({

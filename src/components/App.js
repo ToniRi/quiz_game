@@ -4,16 +4,15 @@ import history from '../history'
 import CreateGame from '../components/CreateGame'
 import Game from './game-play/Game'
 
+
 const App = () => {
 
     return(
-        <div className="ui container">
-            
+        <div className="ui container">            
             <Router history = {history}>
                 <Route path="/" exact component={CreateGame}/>
-                <Route path="/game" exact component ={Game}/>
-            </Router>
-            
+                <Route path="/game" component ={Game}/>                                         
+            </Router>            
         </div>
     )
 }

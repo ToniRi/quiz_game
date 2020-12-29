@@ -6,7 +6,7 @@ const INITIAL_STATE = {}
 // adds a team to state, and inits poinst to zero
 const teamReducer = (state=INITIAL_STATE,action) =>{
 
-    console.log('reducer',action.payload)
+    
     switch (action.type){
 
         case CREATE_TEAM:

@@ -48,7 +48,6 @@ const GameForm = (props) => {
                 {renderFields(fields)}
             </div>
         )
-
     }
 
     return (
