@@ -6,7 +6,8 @@ import { createTeam } from '../../actions'
 import { connect } from 'react-redux'
 
 /*
-There is still an unwnanted action, when first "add member" is clicked, there is BLUR- event in redux form
+-Validation still needs fixing
+-There is still an unwnanted action, when first "add member" is clicked, there is BLUR- event in redux form
 And the input doesnt show. Second click and so is fine
 */
 

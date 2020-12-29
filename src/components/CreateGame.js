@@ -3,7 +3,7 @@ import GameForm from './start-form/GameForm'
 import TeamList from './TeamList'
 
 
-const CreateGame = (props) => {
+const CreateGame = () => {
 
     return (
         <div className="ui container">

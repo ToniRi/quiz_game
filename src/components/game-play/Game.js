@@ -1,6 +1,5 @@
 
 import React from 'react'
-
 import questionApi from '../../apis/questions'
 import PointsSection from './PointsSection'
 import QuestionModal from '../game-play/QuestionModal'
@@ -25,25 +24,25 @@ class Game extends React.Component {
     }
     renderChoices() {
         return this.state.questions[0].choices.map((choice, index) => {
-            return (<button key={index} className="ui button blue" style={{ width: '50%' ,margin : "10px" }}>{choice}</button>)
+            return (<button key={index} className="ui button blue" style={{ width: '50%', margin: "10px" }}>{choice}</button>)
         })
 
     }
 
     showImage() {
 
-        if(!this.state.questions[0].image)
+        if (!this.state.questions[0].image)
             return null
 
-        return <img src={this.state.questions[0].image} alt="Nofoto"/>
+        return <img src={this.state.questions[0].image} alt="Nofoto" />
     }
     renderContent() {
         return (
             <div className="ui two column grid">
-                    <div className="column">
-                        {this.renderChoices()}
-                    </div>
-                   { this.showImage() }
+                <div className="column">
+                    {this.renderChoices()}
+                </div>
+                { this.showImage()}
             </div>)
     }
     renderActions() {
@@ -84,5 +83,4 @@ class Game extends React.Component {
 }
 
 export default Game
-//{<Route path="/game/question" render={(props) => <QuestionModal {...props} question={question} choices={actions} />} />}
-// content={this.state.questions[0].question}
+
