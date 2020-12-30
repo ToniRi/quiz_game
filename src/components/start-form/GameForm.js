@@ -26,27 +26,38 @@ const GameForm = (props) => {
         return fields.map((member, index) => {
             return (
                 <div key={index}>
-                    <Field component={FormInput}
+                    <Field
+                        component={FormInput}
                         label="Member Name"
                         name={`${member}.name`} />
                 </div>
             )
         })
     }
-    const renderMembers = ({ fields }) => {
+
+    // Maximum of 5 members in a team
+    const renderMembers = ({ fields, meta: { error, submitFailed } }) => {
 
         return (
-            <div>
-                <button type="button" onClick={() => fields.push({})}
-                    className="ui button">
-                    Add a Member
+            <div className="ui two column grid">
+                <div className="row">
+                    <div className="column">
+                        <button type="button" onClick={() => fields.length < 6 ? fields.push({}) : false}
+                            className="ui button">
+                            Add a Member
                 </button>
-
-                <button className="ui button green"
-                    style={{ float: "right" }}>
-                    Add a team
+                    </div>
+                    <div className="column">
+                        <button className="ui button green"
+                            style={{ float: "right" }}>
+                            Add a team
                     </button>
+                    </div>
+                </div>                
+                {submitFailed && error && <span>{error}</span>}
+                <div className="column">
                 {renderFields(fields)}
+                </div>
             </div>
         )
     }
@@ -69,26 +80,29 @@ const GameForm = (props) => {
             </form>
         </React.Fragment>
     )
-
 }
 
-const validate = (formValues,props) => {
-    
-    const errors = []
-    
+const validate = (formValues, props) => {
+    const errors = {}
+    console.log(formValues)
+
     if (!formValues.team) {
         errors.team = "Enter a name"
     }
+    if (!formValues.members || !formValues.members.length) {
+        errors.members = { _error: "Must have at least one member" }
+    }
+
     if (formValues.team in props.teams) {
         errors.team = "Team name already in use"
     }
-   
 
     return errors
 }
 const formWrapper = reduxForm({
 
     form: 'gameForm',
+    touchOnBlur: false,
     validate
 
 })(GameForm)

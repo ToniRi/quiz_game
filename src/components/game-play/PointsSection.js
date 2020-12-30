@@ -11,7 +11,7 @@ const PointsShow = (props) => {
             props.teams.map((team, index) => {
                 return (
                     <div key={index}
-                        className="four wide column">
+                        className="column">
                         <TeamCard teamName={team.team} />
                     </div>
                 )
@@ -19,12 +19,10 @@ const PointsShow = (props) => {
         )
     }
 
-    return (
-        <div className="column ten wide">
+    return (        
             <div className="ui two column grid">
                 {renderTeams()}
-            </div>
-        </div>
+            </div>       
 
     )
 }

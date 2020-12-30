@@ -7,19 +7,16 @@ const CreateGame = () => {
 
     return (
         <div className="ui container">
-            <div className="ui segment">
-                <div className="ui two column very relaxed grid">
-                    <div className="column">
+            <div className="ui horizontal segments">
+                    <div className="ui raised segment">
                         <div className="ui form">
                             Create A Game
                  <GameForm />
                         </div>
                     </div>
-                    <div className="column">
+                    <div className="ui compact segment">
                         <TeamList />
-                    </div>
-                </div>
-                <div className="ui vertical divider"/>                
+                </div>               
             </div>
         </div>
     )
