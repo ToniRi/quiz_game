@@ -4,7 +4,6 @@ import history from '../history'
 import CreateGame from '../components/CreateGame'
 import Game from './game-play/Game'
 
-
 const App = () => {
 
     return(

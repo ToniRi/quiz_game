@@ -10,8 +10,7 @@ const TeamList = (props) => {
 
             return (
                 <ul className="ui celled list" key={index}>{team.team}
-                    {renderMembers(team)}
-                    
+                    {renderMembers(team)}                    
                 </ul>
             )
         })

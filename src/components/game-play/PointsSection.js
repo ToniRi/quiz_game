@@ -7,7 +7,6 @@ const PointsShow = (props) => {
 
     const renderTeams = () => {
 
-
         return (
             props.teams.map((team, index) => {
                 return (
@@ -21,9 +20,9 @@ const PointsShow = (props) => {
     }
 
     return (
-        <div className ="column ten wide">
-        <div className="ui two column grid">
-            {renderTeams()}
+        <div className="column ten wide">
+            <div className="ui two column grid">
+                {renderTeams()}
             </div>
         </div>
 
