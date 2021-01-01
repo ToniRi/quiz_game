@@ -3,7 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { addPoint, removePoint } from '../../actions'
 
-const TeamShow = (props) => {
+const PointCard = (props) => {
 
     return (
 
@@ -29,4 +29,4 @@ const mapStateToProps = (state, ownProps) => {
         teams: state.teams
     }
 }
-export default connect(mapStateToProps, { addPoint, removePoint })(TeamShow)
+export default connect(mapStateToProps, { addPoint, removePoint })(PointCard)

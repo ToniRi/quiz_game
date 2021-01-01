@@ -1,0 +1,20 @@
+
+.round-bordered{
+
+    border-radius: 1em;
+}
+.transparent{
+    background-color: transparent;
+}
+.margin-card{
+
+    margin-top: 0.5vh;
+}
+
+.center-grid{
+
+    margin: auto;
+    position: relative;
+    top : 10vh;
+    height: 80vh;
+}

@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import TeamCard from './TeamCard'
+import PointCard from './PointCard'
 
 const PointsShow = (props) => {
 
@@ -12,7 +12,7 @@ const PointsShow = (props) => {
                 return (
                     <div key={index}
                         className="column">
-                        <TeamCard teamName={team.team} />
+                        <PointCard teamName={team.team} />
                     </div>
                 )
             })

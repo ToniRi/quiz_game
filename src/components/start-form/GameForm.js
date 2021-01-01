@@ -42,21 +42,20 @@ const GameForm = (props) => {
             <div className="ui two column grid">
                 <div className="row">
                     <div className="column">
-                        <button type="button" onClick={() => fields.length < 6 ? fields.push({}) : false}
+                        <button type="button" onClick={() => fields.length < 5 ? fields.push({}) : false}
                             className="ui button">
                             Add a Member
                 </button>
                     </div>
                     <div className="column">
-                        <button className="ui button green"
-                            style={{ float: "right" }}>
+                        <button className="ui button green">
                             Add a team
                     </button>
                     </div>
-                </div>                
+                </div>
                 {submitFailed && error && <span>{error}</span>}
                 <div className="column">
-                {renderFields(fields)}
+                    {renderFields(fields)}
                 </div>
             </div>
         )
@@ -84,7 +83,7 @@ const GameForm = (props) => {
 
 const validate = (formValues, props) => {
     const errors = {}
-    console.log(formValues)
+
 
     if (!formValues.team) {
         errors.team = "Enter a name"
