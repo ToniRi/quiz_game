@@ -3,6 +3,7 @@ import {Router, Route} from 'react-router-dom'
 import history from '../history'
 import CreateGame from '../components/CreateGame'
 import Game from './game-play/Game'
+import Finish from './finish/Finish'
 
 const App = () => {
 
@@ -10,7 +11,8 @@ const App = () => {
         <div>            
             <Router history = {history}>
                 <Route path="/" exact component={CreateGame}/>
-                <Route path="/game" component ={Game}/>                                         
+                <Route path="/game" component ={Game}/>     
+                <Route path ="/finish" component={Finish} />                                   
             </Router>            
         </div>
     )

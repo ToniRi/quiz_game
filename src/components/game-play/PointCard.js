@@ -6,7 +6,7 @@ import { addPoint, removePoint } from '../../actions'
 const PointCard = (props) => {
 
     return (
-
+        
         <div className="ui raised card">
             <div className="center aligned header">{props.teams[props.teamName].team}</div>
             <div className="center aligned content">{props.teams[props.teamName].points}</div>
