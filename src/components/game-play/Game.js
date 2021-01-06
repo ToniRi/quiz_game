@@ -3,8 +3,8 @@ import questionApi from '../../apis/questions'
 import PointsSection from './PointsSection'
 import QuestionModal from '../game-play/QuestionModal'
 import history from '../../history'
-import './game.css'
 import exampleQuestions from '../../questions'
+
 
 
 class Game extends React.Component {
@@ -13,8 +13,7 @@ class Game extends React.Component {
         showModal: false,
         questions: [],
         gameFinsihed: false,
-        remaining: 0,
-        showAnswer : false
+        showAnswer: false
     }
 
     //No need for global state
@@ -30,34 +29,40 @@ class Game extends React.Component {
                 this.setState({ questions: exampleQuestions, remaining: exampleQuestions.length })
             }
         }
-        fetchQuestionsAsync()       
+        fetchQuestionsAsync()
     }
 
     renderChoices() {
+        const style = { backgroundColor: "green" }
+        const { questions, showAnswer } = this.state
 
-        return this.state.questions[0].choices.map((choice) => {
+        return questions[0].choices.map((choice) => {
+
             return (
-            <div key={choice} className="ui segment" ><h3>{choice}</h3></div>
+                <div key={choice} className="ui segment" style={showAnswer && choice === questions[0].answer ? style : null}><h3>{choice}</h3></div>
             )
         })
-
     }
 
     showImage() {
 
-        if (!this.state.questions[0].image)
+        const { questions } = this.state
+
+        if (!questions[0].image)
             return null
 
         return (
             <div className="ui segment">
-                <img className="ui centered medium image" src={this.state.questions[0].image} alt="Nofoto" />
+                <img className="ui centered medium image" src={questions[0].image} alt="Nofoto" />
             </div>
         )
     }
     renderContent() {
 
-        if (this.state.questions[0].choices.length === 0)
-            return null
+        const { questions, showAnswer } = this.state
+
+        if (questions[0].choices.length === 0 && showAnswer)
+            return <div className="ui segment"><h3>{questions[0].answer}asd</h3></div>
 
         return (
             <div className="ui horizontal segments">
@@ -67,46 +72,60 @@ class Game extends React.Component {
                     </div>
                 </div>
                 { this.showImage()}
-                {this.state.showAnswer ? <div className="ui segment"><h2>{this.state.questions[0].answer}</h2></div> : null}
+
             </div>)
     }
+
     renderActions() {
-        
+
         return (
             <React.Fragment>
-                <button onClick={this.nextQuestion} className="ui button red">Close</button>
+                {!this.state.showAnswer ?
+                    (<button className="ui button green" onClick={() => this.setState(state =>
+                        ({ showAnswer: !state.showAnswer }))
+                    }>Show Answer</button>) :
+                    (<button onClick={this.nextQuestion} className="ui button red">Close</button>)
+                }
             </React.Fragment>
         )
     }
 
-    showQuestion= () =>{
-        
-        this.setState({ showModal: true})               
-        
+    showQuestion = () => {
+
+        this.setState((state) => ({ showModal: !state.showModal }))
     }
 
     nextQuestion = () => {
 
-        this.setState({showModal : false,
-            showAnswer : false
-        })        
-        const temp = this.state.questions.slice(1)
-        this.setState({ questions: temp, remaining: temp.length })
-        if (temp.length === 0)
-            this.setState({gameFinsihed : true})
+        this.setState((state) => (
+            {
+                showModal: !state.showModal,
+                showAnswer: !state.showAnswer
+            }))
+
+        this.setState(state => (
+            {
+                questions: state.questions.slice(1)
+            }))
+
+        if (this.state.questions.length === 1)
+            this.setState(state => ({ gameFinsihed: !state.gameFinsihed }))
+
     }
     renderFinishNextButton() {
 
-        if (this.state.remaining > 0) {
+        const { questions, gameFinsihed } = this.state
+
+        if (questions.length > 0) {
             return (
-                <button style={{ marginTop: "3vh" }} className={`ui button green large ${this.state.questions.length === 0 ? 'disabled' : ''}`}
-                    onClick={ () => this.showQuestion()}
+                <button style={{ marginTop: "3vh" }} className={`ui button green large`}
+                    onClick={() => this.showQuestion()}
                 >
                     Next Question
                 </button>
             )
         }
-        else if (this.state.gameFinsihed) {
+        else if (gameFinsihed) {
             return (
                 <button className="ui button primary large"
                     onClick={() => history.push('/finish')}
@@ -116,13 +135,14 @@ class Game extends React.Component {
             )
         }
         else
-            return (               
-                    <div className="ui active centered inline loader"></div >                
+            return (
+                <div className="ui active centered inline loader"></div >
             )
     }
 
     render() {
 
+        const { questions, showModal } = this.state
         return (
             <div className="ui container">
                 <div className="ui raised segment center aligned">
@@ -130,16 +150,16 @@ class Game extends React.Component {
                         <div className="ui right aligned header">
                         </div>
                         <div className="">
-                            Questions left: {this.state.remaining}
+                            Questions left: {questions.length}
                         </div>
                     </div>
                     <PointsSection />
                     <div className="ui segment">
-                    {this.renderFinishNextButton()}
+                        {this.renderFinishNextButton()}
                     </div>
                 </div>
-                {this.state.showModal ?
-                    <QuestionModal title={this.state.questions[0].question}
+                {showModal ?
+                    <QuestionModal title={questions[0].question}
                         content={this.renderContent()}
                         actions={this.renderActions()}
                         onDismiss={this.nextQuestion} /> : null}
@@ -147,7 +167,6 @@ class Game extends React.Component {
 
         )
     }
-
 }
 
 export default Game

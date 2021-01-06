@@ -1,5 +1,6 @@
 
      const questions =  [
+
         {
           "id" : 1,
           "question" : "Kuka ajoi autoa, jossa prinsessa Diana kuoli?" ,
@@ -23,10 +24,12 @@
           "answer" : "Heikki Salmela"
         },
         {
-          "id": 3,
-          "question" : "Kuka on Suomen pääministeri",
-          "choices": [],
-          "answer": "Sanna Marin" 
+          "id" : 3,
+          "question": "Kuka on Suomen pääministeri?" ,
+          "choices" : [
+            
+          ],
+          "answer" : "Sanna Marin"
         }
     ]
 
