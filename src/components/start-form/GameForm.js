@@ -22,14 +22,17 @@ const GameForm = (props) => {
     }
 
     const renderFields = (fields) => {
-
+        //
         return fields.map((member, index) => {
             return (
-                <div key={index}>
+                <div className="two fields" key={index}>
                     <Field
                         component={FormInput}
                         label="Member Name"
-                        name={`${member}.name`} />
+                        name={`${member}.name`} />  
+                        <div className="field">                      
+                        <i className="icon trash"></i>
+                        </div>
                 </div>
             )
         })

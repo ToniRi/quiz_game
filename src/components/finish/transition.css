@@ -1,0 +1,17 @@
+.team-enter {
+    opacity: 0;
+  }
+  .team-enter-active {
+    opacity: 1;
+    transition: opacity 1000ms ease-in;
+  }
+  .team-exit {
+    opacity: 1;
+  }
+  .team-exit-active {
+    opacity: 0;
+    transition: opacity 200ms ease-out;
+  }
+  .team{
+      background-color: teal;
+  }
