@@ -8,14 +8,15 @@ Can be provided an api with axios.create(), but if api is not provided uses dumm
 
 ### questions list from api
 
-*questions : List of objects,
-     *question is an object with properties: 
-        *id : Number
-        *question : string,
-        *choices : optional list of strings,
-        *answer : string (should match one of the choices if choices are provided),
-        *image: src to image if needed
-        *meta :string (if the question needs  further explanation after the anser is shown)
+    * questions : List of objects
+    
+     * question is an object with properties: 
+        * id : Number
+        * question : string,
+        * choices : optional list of strings,
+        * answer : string (should match one of the choices if choices are provided),
+        * image: src to image if needed
+        * meta :string (if the question needs  further explanation after the anser is shown)
 
 example :
 <
