@@ -1,26 +1,30 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
+import { Button, ButtonGroup, Card, Header, Icon } from 'semantic-ui-react'
+
 import { addPoint, removePoint } from '../../actions'
 
-const PointCard = (props) => {
+    // This component provides adding and removing points from team. 
 
-    return (
-        
-        <div className="ui raised card">
-            <div className="center aligned header">{props.teams[props.teamName].team}</div>
-            <div className="center aligned content">{props.teams[props.teamName].points}</div>
-            <div className="extra content">
-                <div className="ui large two buttons">
-                    <div className="ui green button"
+const PointCard = (props) => {
+    return (        
+        <Card >
+            <Header textAlign={'center'}>{props.teams[props.teamName].team}</Header>
+            <Card.Content >{props.teams[props.teamName].points}</Card.Content>
+            <Card.Content>
+                <ButtonGroup size={'large'}>
+                    <Button color={'green'}
                         onClick={() => props.addPoint(props.teams[props.teamName])}>
-                        +
-                            </div>
-                    <div className="ui red button"
-                        onClick={() => props.removePoint(props.teams[props.teamName])}>-</div>
-                </div>
-            </div>
-        </div>
+                        <Icon name={'thumbs up'}/>
+                            </Button>
+                    <Button color={'red'} 
+                        onClick={() => props.removePoint(props.teams[props.teamName])}>
+                            <Icon name={'thumbs down'}/>
+                        </Button>
+                </ButtonGroup>
+            </Card.Content>
+        </Card>
     )
 }
 const mapStateToProps = (state, ownProps) => {

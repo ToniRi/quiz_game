@@ -4,6 +4,7 @@ import PointsSection from './PointsSection'
 import QuestionModal from '../game-play/QuestionModal'
 import history from '../../history'
 import exampleQuestions from '../../questions'
+import { Button, Container, Loader, Segment, Image } from 'semantic-ui-react'
 
 
 
@@ -16,10 +17,12 @@ class Game extends React.Component {
         showAnswer: false
     }
 
-    //No need for global state
-
+    //This component loads the questions and renders each question with a semantic ui- modal
+    //Also renders current points. Points can be added or removed (this is personal intrest, nothing to do with
+    // what is smart :D )
     componentDidMount() {
 
+        //I am using Json server for now
         const fetchQuestionsAsync = async () => {
             try {
                 const response = await questionApi.get('/questions')
@@ -32,18 +35,22 @@ class Game extends React.Component {
         fetchQuestionsAsync()
     }
 
+    // renders choices if provided. Correct choice will be rendered green
     renderChoices() {
         const style = { backgroundColor: "green" }
         const { questions, showAnswer } = this.state
 
         return questions[0].choices.map((choice) => {
-
             return (
-                <div key={choice} className="ui segment" style={showAnswer && choice === questions[0].answer ? style : null}><h3>{choice}</h3></div>
+                <Segment key={choice}
+                    style={showAnswer && choice === questions[0].answer ? style : null}>
+                    <h3>{choice}</h3>
+                </Segment>
             )
         })
     }
 
+    // Questions can hold images- so it is rendered if provided
     showImage() {
 
         const { questions } = this.state
@@ -52,39 +59,42 @@ class Game extends React.Component {
             return null
 
         return (
-            <div className="ui segment">
-                <img className="ui centered medium image" src={questions[0].image} alt="Nofoto" />
-            </div>
+            <Segment style={{ margin: "auto" }} >
+                <Image centered src={questions[0].image} size="small" alt="Nofoto" />
+            </Segment>
         )
     }
-    renderContent() {
 
+    // Renders content of the question ie choices 
+    renderContent() {
         const { questions, showAnswer } = this.state
 
         if (questions[0].choices.length === 0 && showAnswer)
-            return <div className="ui segment"><h3>{questions[0].answer}asd</h3></div>
+            return <Segment><h3>{`${questions[0].answer} ${questions[0].meta ? questions[0].meta : ''}`} </h3></Segment>
 
         return (
-            <div className="ui horizontal segments">
-                <div className="ui segment">
-                    <div className="ui raised segments">
+            <Segment.Group horizontal>
+                <Segment >
+                    <Segment.Group raised>
                         {this.renderChoices()}
-                    </div>
-                </div>
-                { this.showImage()}
+                    </Segment.Group>
+                    {showAnswer && questions[0].meta ? <span>{questions[0].meta}</span> : ''}
+                </Segment>
+                {this.showImage()}
+            </Segment.Group>
+        )
 
-            </div>)
     }
 
+    // Renders Cancel or show answer button to modal
     renderActions() {
-
         return (
             <React.Fragment>
                 {!this.state.showAnswer ?
-                    (<button className="ui button green" onClick={() => this.setState(state =>
+                    (<Button color={'green'} onClick={() => this.setState(state =>
                         ({ showAnswer: !state.showAnswer }))
-                    }>Show Answer</button>) :
-                    (<button onClick={this.nextQuestion} className="ui button red">Close</button>)
+                    }>Show Answer</Button>) :
+                    (<Button onClick={this.nextQuestion} color={'red'}>Close</Button>)
                 }
             </React.Fragment>
         )
@@ -95,6 +105,7 @@ class Game extends React.Component {
         this.setState((state) => ({ showModal: !state.showModal }))
     }
 
+    //Changes current question and closes the modal, also keeps track wheter currently in last question
     nextQuestion = () => {
 
         this.setState((state) => (
@@ -112,62 +123,65 @@ class Game extends React.Component {
             this.setState(state => ({ gameFinsihed: !state.gameFinsihed }))
 
     }
+    //if current question is last. Then next renders game finish
     renderFinishNextButton() {
-
         const { questions, gameFinsihed } = this.state
-
         if (questions.length > 0) {
             return (
-                <button style={{ marginTop: "3vh" }} className={`ui button green large`}
+                <Button style={{ marginTop: "3vh" }}
+                    color={"green"}
+                    size={'large'}
                     onClick={() => this.showQuestion()}
                 >
                     Next Question
-                </button>
+                </Button>
             )
         }
         else if (gameFinsihed) {
             return (
-                <button className="ui button primary large"
+                <Button size={'large'}
+                    primary
                     onClick={() => history.push('/finish')}
                     style={{ marginTop: "3vh" }}>
                     Finish
-                </button>
+                </Button>
             )
         }
         else
             return (
-                <div className="ui active centered inline loader"></div >
+                <Loader
+                    active
+                    inline
+                />
             )
     }
 
     render() {
-
         const { questions, showModal } = this.state
         return (
-            <div className="ui container">
-                <div className="ui raised segment center aligned">
-                    <div className="ui segment">
-                        <div className="ui right aligned header">
-                        </div>
-                        <div className="">
-                            Questions left: {questions.length}
-                        </div>
-                    </div>
-                    <PointsSection />
-                    <div className="ui segment">
+            <Container >
+                <Segment raised
+                    textAlign={"center"}
+                    style={{ margin: "auto" }}>
+                    <Segment >
+                        Questions left: {questions.length}
+                    </Segment>
+                    <Segment style={{ border: "none" }}>
+                        <PointsSection />
+                    </Segment>
+                    <Segment>
                         {this.renderFinishNextButton()}
-                    </div>
-                </div>
+                    </Segment>
+                </Segment>
                 {showModal ?
                     <QuestionModal title={questions[0].question}
+                        active={showModal}
+                        bonus={questions[0].bonus === true}
                         content={this.renderContent()}
                         actions={this.renderActions()}
                         onDismiss={this.nextQuestion} /> : null}
-            </div>
-
+            </Container>
         )
     }
 }
-
 export default Game
-

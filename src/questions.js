@@ -1,6 +1,5 @@
 
      const questions =  [
-
         {
           "id" : 1,
           "question" : "Kuka ajoi autoa, jossa prinsessa Diana kuoli?" ,
@@ -21,16 +20,15 @@
             "Heikki Vainio",
             "Mika Purulainen"
           ],
+          "image" : "https://leanware.fi/wp-content/uploads/2017/12/Hesburger_440x200.jpg",
           "answer" : "Heikki Salmela"
         },
         {
           "id" : 3,
           "question": "Kuka on Suomen pääministeri?" ,
-          "choices" : [
-            
+          "choices" : [            
           ],
           "answer" : "Sanna Marin"
         }
     ]
-
     export default questions

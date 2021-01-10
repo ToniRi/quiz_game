@@ -1,36 +1,29 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
+import { Grid } from 'semantic-ui-react'
 import PointCard from './PointCard'
 
+// Component to show collection of teams 
 const PointsSection = (props) => {
-
-    // figure out how to place component two columns in one row
     const renderTeams = () => {
-
         return (
             props.teams.map((team, index) => {
-
                 return (
-                    <div key={index} className={`column four wide`}>
+                    <Grid.Column key={index} width={4}>
                         <PointCard teamName={team.team} />
-                    </div >
+                    </Grid.Column >
                 )
-            } )
-            )
+            })
+        )
     }
 
     return (
-        <div className="ui grid">
-            <div className="row">
-                <div className="ui grid">
-                    <div className="row">
-                        {renderTeams()}
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <Grid >
+            <Grid.Row>
+                {renderTeams()}
+            </Grid.Row>
+        </Grid>
     )
 }
 
@@ -40,22 +33,3 @@ const mapStateToProps = (state) => {
     }
 }
 export default connect(mapStateToProps)(PointsSection)
-
-
-/*const renderTeams = () => {
-
-        return (
-
-            props.teams.map((team, index) => {
-
-                return (
-                    <div key={index} className="ui four column row">
-
-                        <div className={`${index / 2 === 0 ? 'right' : 'left'} floated column`}>
-                            <PointCard teamName={team.team} />
-                        </div>
-                    </div>
-                )
-            })
-        )
-    } */

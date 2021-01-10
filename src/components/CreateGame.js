@@ -1,27 +1,27 @@
 import React from 'react'
-import GameForm from './start-form/GameForm'
+import 'semantic-ui-css/semantic.min.css'
+import { Grid, Container } from 'semantic-ui-react'
+import CreateTeamForm from './start-form/CreateTeamForm'
 import TeamList from './start-form/TeamList'
-import './styling.css'
 
-
-//remove inline stylings!!!!!
+// Component for game creation. Holds list of created teams and a form to create one
 const CreateGame = () => {
     return (
-        <div className="ui container" >
-            <div className="ui column grid center-grid transparent">
-                <div className="column six wide column round-bordered" style={{ backgroundColor: "teal" }}>
-                    <i className="ui coffee large icon" />
-                    <div className="ui form">
-                        <GameForm />
-                    </div>
-                </div>
-                <div className="column one wide" style={{ backgroundColor: "white" }}></div>
-                <div className="ui column nine wide round-bordered" style={{ backgroundColor: "teal" }}>
-                    <TeamList />
-                </div>
-            </div>
-        </div>
+        <Container>
+            <Grid style={{ marginTop: "1em" }} relaxed={"very"}>
+                <Grid.Row divided>
+                    <Grid.Column floated={"left"}
+                        width={8}
+                    >
+                        <CreateTeamForm />
+                    </Grid.Column>
+                    <Grid.Column floated={"right"}
+                        width={8}>
+                        <TeamList />
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
+        </Container>
     )
 }
-
 export default CreateGame

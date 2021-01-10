@@ -1,36 +1,38 @@
 import React from 'react'
-import '../styling.css'
+import { Card, Feed } from 'semantic-ui-react'
 
-const TeamCard = ({ teamName, members }) => {
-//{`${member.name}|`}
+
+// Renders Team props
+const TeamCard = ({ teamName, members, points }) => {
     const renderMembers = () => {
-
         return members.map((member, index) => {
-            return <React.Fragment  key={index}>{index === members.length-1 ? `${member.name}`: `${member.name}|`}</React.Fragment>
+            return <Card.Description key={index}>{member.name}</Card.Description>
         })
     }
 
     return (
-
-        <div className="ui card" style={{backgroundColor: 'transparent'}}>
-            <div className="content">
-                <div className="header">{teamName}</div>
-            </div>
-            <div className="content">
-                <div className="ui small feed">
-                    <div className="event">
-                        <div className="content">
-                            <div className="summary"style={{overflowWrap:'anywhere'}}>
+        <Card>
+            <Card.Content>
+                <Card.Header
+                    textAlign={'center'}>{teamName}
+                </Card.Header>
+                <Card.Meta
+                    textAlign={'center'}>
+                    {`Points: ${points}`}
+                </Card.Meta>
+            </Card.Content>
+            <Card.Content>
+                <Feed size={"small"}>
+                    <Feed.Event >
+                        <Feed.Content >
+                            <Feed.Summary>
                                 {renderMembers()}
-                </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+                            </Feed.Summary>
+                        </Feed.Content>
+                    </Feed.Event>
+                </Feed>
+            </Card.Content>
+        </Card>
     )
-
-
 }
 export default TeamCard
