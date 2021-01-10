@@ -7,10 +7,8 @@ This app is created in just for fun
 Can be provided an api with axios.create(), but if api is not provided uses dummy questions just for example..
 
 ### questions list from api
-
-    * questions : List of objects
-    
-     * question is an object with properties: 
+* questions : List of objects
+    * question is an object with properties: 
         * id : Number
         * question : string,
         * choices : optional list of strings,
