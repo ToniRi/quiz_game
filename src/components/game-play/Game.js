@@ -1,49 +1,37 @@
 import React from 'react'
-import questionApi from '../../apis/questions'
 import PointsSection from './PointsSection'
 import QuestionModal from '../game-play/QuestionModal'
 import history from '../../history'
-import exampleQuestions from '../../questions'
+import { fetchQuestions } from '../../actions'
 import { Button, Container, Loader, Segment, Image } from 'semantic-ui-react'
-
-
+import { connect } from 'react-redux'
 
 class Game extends React.Component {
 
     state = {
         showModal: false,
-        questions: [],
         gameFinsihed: false,
-        showAnswer: false
+        showAnswer: false,
+        questionNumber: 0
     }
 
     //This component loads the questions and renders each question with a semantic ui- modal
     //Also renders current points. Points can be added or removed (this is personal intrest, nothing to do with
-    // what is smart :D )
+    // what is smart  )
     componentDidMount() {
-
-        //I am using Json server for now
-        const fetchQuestionsAsync = async () => {
-            try {
-                const response = await questionApi.get('/questions')
-                this.setState({ questions: response.data, remaining: response.data.length })
-            }
-            catch (err) {
-                this.setState({ questions: exampleQuestions, remaining: exampleQuestions.length })
-            }
-        }
-        fetchQuestionsAsync()
+        this.props.fetchQuestions()
     }
 
     // renders choices if provided. Correct choice will be rendered green
     renderChoices() {
         const style = { backgroundColor: "green" }
-        const { questions, showAnswer } = this.state
+        const { showAnswer, questionNumber } = this.state
+        const { questions } = this.props
 
-        return questions[0].choices.map((choice) => {
+        return questions[questionNumber].choices.map((choice) => {
             return (
                 <Segment key={choice}
-                    style={showAnswer && choice === questions[0].answer ? style : null}>
+                    style={showAnswer && choice === questions[questionNumber].answer ? style : null}>
                     <h3>{choice}</h3>
                 </Segment>
             )
@@ -52,38 +40,43 @@ class Game extends React.Component {
 
     // Questions can hold images- so it is rendered if provided
     showImage() {
-
-        const { questions } = this.state
-
-        if (!questions[0].image)
+        const { questions } = this.props
+        const { questionNumber } = this.state
+        if (!questions[questionNumber].image)
             return null
 
         return (
             <Segment style={{ margin: "auto" }} >
-                <Image centered src={questions[0].image} size="small" alt="Nofoto" />
+                <Image centered src={questions[questionNumber].image} size="small" alt="Nofoto" />
             </Segment>
         )
     }
 
     // Renders content of the question ie choices 
     renderContent() {
-        const { questions, showAnswer } = this.state
-
-        if (questions[0].choices.length === 0 && showAnswer)
-            return <Segment><h3>{`${questions[0].answer} ${questions[0].meta ? questions[0].meta : ''}`} </h3></Segment>
+        const { showAnswer, questionNumber } = this.state
+        const { questions } = this.props
+        if (questions[questionNumber].choices.length === 0 && showAnswer)
+            return (
+                <Segment>
+                    <h3>
+                        {`${questions[questionNumber].answer} ${questions[questionNumber].meta ?
+                            questions[questionNumber].meta : ''}`}
+                    </h3>
+                </Segment>
+            )
 
         return (
             <Segment.Group horizontal>
-                <Segment >
+                <Segment>
                     <Segment.Group raised>
                         {this.renderChoices()}
                     </Segment.Group>
-                    {showAnswer && questions[0].meta ? <span>{questions[0].meta}</span> : ''}
+                    {showAnswer && questions[questionNumber].meta ? <span>{questions[questionNumber].meta}</span> : ''}
                 </Segment>
                 {this.showImage()}
             </Segment.Group>
         )
-
     }
 
     // Renders Cancel or show answer button to modal
@@ -101,32 +94,32 @@ class Game extends React.Component {
     }
 
     showQuestion = () => {
-
         this.setState((state) => ({ showModal: !state.showModal }))
     }
 
     //Changes current question and closes the modal, also keeps track wheter currently in last question
     nextQuestion = () => {
 
-        this.setState((state) => (
+        const { questions } = this.props
+        this.setState(state => (
             {
                 showModal: !state.showModal,
                 showAnswer: !state.showAnswer
             }))
 
-        this.setState(state => (
-            {
-                questions: state.questions.slice(1)
-            }))
-
-        if (this.state.questions.length === 1)
+            if (this.state.questionNumber === questions.length-1 )
             this.setState(state => ({ gameFinsihed: !state.gameFinsihed }))
 
+        this.setState(state => ({
+            questionNumber: state.questionNumber + 1
+        }))
     }
     //if current question is last. Then next renders game finish
     renderFinishNextButton() {
-        const { questions, gameFinsihed } = this.state
-        if (questions.length > 0) {
+        const { gameFinsihed } = this.state
+        const { questions } = this.props
+
+        if (!gameFinsihed && questions.length > 0) {
             return (
                 <Button style={{ marginTop: "3vh" }}
                     color={"green"}
@@ -157,14 +150,15 @@ class Game extends React.Component {
     }
 
     render() {
-        const { questions, showModal } = this.state
+        const { showModal, questionNumber } = this.state
+        const { questions } = this.props
         return (
             <Container >
                 <Segment raised
                     textAlign={"center"}
                     style={{ margin: "auto" }}>
                     <Segment >
-                        Questions left: {questions.length}
+                        Questions left: {questions.length - questionNumber}
                     </Segment>
                     <Segment style={{ border: "none" }}>
                         <PointsSection />
@@ -174,9 +168,9 @@ class Game extends React.Component {
                     </Segment>
                 </Segment>
                 {showModal ?
-                    <QuestionModal title={questions[0].question}
+                    <QuestionModal title={questions[questionNumber].question}
                         active={showModal}
-                        bonus={questions[0].bonus === true}
+                        bonus={questions[questionNumber].bonus === true}
                         content={this.renderContent()}
                         actions={this.renderActions()}
                         onDismiss={this.nextQuestion} /> : null}
@@ -184,4 +178,9 @@ class Game extends React.Component {
         )
     }
 }
-export default Game
+const mapStateToProps = (state) => {
+    return {
+        questions: Object.values(state.questions)
+    }
+}
+export default connect(mapStateToProps, { fetchQuestions })(Game)

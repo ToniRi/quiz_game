@@ -5,7 +5,6 @@ import TeamCard from '../start-form/TeamCard';
 
 // This component shows the result of the game
 const Finish = (props) => {
-
     const renderResult = () => {
         const ordered = props.teams.sort((a, b) => b.points - a.points)
         return ordered.map((team, index) => {
@@ -21,8 +20,6 @@ const Finish = (props) => {
                         members={team.members}
                         points={team.points} />
                 </div>
-
-
             )
         })
     }
@@ -32,7 +29,6 @@ const Finish = (props) => {
             {renderResult()}
         </Container>
     )
-
 }
 const mapStateToProps = (state) => {
     return {
