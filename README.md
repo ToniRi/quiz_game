@@ -34,6 +34,4 @@ example :
  ]
  ```
 
-### questions list from api
-    Whats next? I dunno- perhaps some styling or business logic. This is not ment to be bulletproof
-    - Main purpose is to have a little competition with friends
+### IN branches there is still buggy version of global state questions. Restful conventions fetchin one question at the time
