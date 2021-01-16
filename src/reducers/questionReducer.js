@@ -1,14 +1,13 @@
-import { FETCH_QUESTION, FETCH_QUESTIONS } from '../actions/types'
-import _ from 'lodash'
+import { FETCH_QUESTION,UNSET_QUESTION } from '../actions/types'
 
 const questionReducer = (state = {}, action) => {
 
-    switch (action.type) {
-        case FETCH_QUESTIONS:
-            return { ...state, ..._.mapKeys(action.payload,'id') }
-
+    switch (action.type) {      
         case FETCH_QUESTION:
-            return {...state, [action.payload.id] : action.payload}
+            return action.payload
+
+        case UNSET_QUESTION : 
+        return {}
 
         default: return state
     }

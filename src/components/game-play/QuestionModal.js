@@ -7,6 +7,7 @@ const QuestionModal = props => {
 
     const style = props.bonus ? { backgroundColor: 'pink' } : null
     return (
+
         ReactDOM.createPortal(
             <Dimmer active={props.active}>
                 <Modal onClick={e => e.stopPropagation()} open={props.active}>
